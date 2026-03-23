@@ -32,6 +32,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         console.warn('Token expired or invalid - logging out');
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.clear();
         router.navigate(['/login']);
       }
 
