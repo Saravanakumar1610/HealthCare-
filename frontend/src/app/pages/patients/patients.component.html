@@ -1,0 +1,22 @@
+<h2>Patients Details</h2>
+
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Disease</th>
+  </tr>
+
+  <tr *ngFor="let p of patients">
+    <td>{{p.id}}</td>
+    <td>{{p.name}}</td>
+    <td>{{p.age}}</td>
+    <td>{{p.disease}}</td>
+  </tr>
+</table>
+
+<br>
+
+<button [routerLink]="['/doctors']">Go to Doctor Details</button>
+<button [routerLink]="['/']">Go to Login</button>

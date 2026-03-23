@@ -1,0 +1,34 @@
+<h2>Registration</h2>
+
+<!-- 🔽 Dropdown -->
+<select [(ngModel)]="type">
+  <option value="patient">Patient</option>
+  <option value="doctor">Doctor</option>
+</select>
+
+<hr>
+
+<!-- ✅ Patient Form -->
+<div *ngIf="type === 'patient'">
+  <h3>Patient Details</h3>
+
+  <input [(ngModel)]="patient.name" placeholder="Name">
+  <input [(ngModel)]="patient.age" placeholder="Age">
+  <input [(ngModel)]="patient.disease" placeholder="Disease">
+  <input [(ngModel)]="patient.doctorAssigned" placeholder="Doctor Assigned">
+</div>
+
+<!-- ✅ Doctor Form -->
+<div *ngIf="type === 'doctor'">
+  <h3>Doctor Details</h3>
+
+  <input [(ngModel)]="doctor.name" placeholder="Name">
+  <input [(ngModel)]="doctor.specialization" placeholder="Specialization">
+  <input [(ngModel)]="doctor.email" placeholder="Email">
+  <input [(ngModel)]="doctor.phone" placeholder="Phone">
+</div>
+
+<br>
+
+<button (click)="submit()">Submit</button>
+<button [routerLink]="['/']">Back to Login</button>
