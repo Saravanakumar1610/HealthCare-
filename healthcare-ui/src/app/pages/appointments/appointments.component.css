@@ -1,0 +1,84 @@
+/* ================================
+   Premium Appointments Page
+   ================================ */
+
+.page-header i {
+  margin-right: 8px;
+  color: var(--info);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  padding: 0;
+  border-radius: var(--radius-lg);
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.avatar-teal {
+  background: rgba(20, 184, 166, 0.15);
+  color: var(--primary);
+}
+
+.avatar-violet {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--secondary);
+}
+
+.cell-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+}

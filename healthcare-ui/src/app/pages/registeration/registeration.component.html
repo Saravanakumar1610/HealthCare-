@@ -1,0 +1,132 @@
+<div class="register-page">
+  <!-- Decorative Background -->
+  <div class="login-bg">
+    <div class="bg-circle c1"></div>
+    <div class="bg-circle c2"></div>
+    <div class="bg-circle c3"></div>
+  </div>
+
+  <!-- Register Card -->
+  <div class="login-card fade-in-up">
+    <!-- Brand Header -->
+    <div class="login-brand">
+      <div class="brand-icon-lg">
+        <i class='bx bx-plus-medical'></i>
+      </div>
+      <h1>MedVault</h1>
+      <p>Create your account</p>
+    </div>
+
+    <!-- Register Form -->
+    <form (ngSubmit)="submit()" class="login-form">
+      <h2>Register</h2>
+      <p class="login-subtitle">Fill in your details to get started</p>
+
+      <!-- Full Name -->
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <div class="input-wrapper">
+          <i class='bx bx-id-card'></i>
+          <input
+            type="text"
+            class="form-input"
+            [class.is-invalid]="errors.fullName"
+            [(ngModel)]="form.fullName"
+            name="fullName"
+            placeholder="Enter your full name"
+          />
+        </div>
+        @if (errors.fullName) {
+          <div class="form-error"><i class='bx bx-error-circle'></i> {{ errors.fullName }}</div>
+        }
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <div class="input-wrapper">
+          <i class='bx bx-user'></i>
+          <input
+            type="text"
+            class="form-input"
+            [class.is-invalid]="errors.username"
+            [(ngModel)]="form.username"
+            name="username"
+            placeholder="Choose a username"
+          />
+        </div>
+        @if (errors.username) {
+          <div class="form-error"><i class='bx bx-error-circle'></i> {{ errors.username }}</div>
+        }
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <div class="input-wrapper">
+          <i class='bx bx-envelope'></i>
+          <input
+            type="email"
+            class="form-input"
+            [class.is-invalid]="errors.email"
+            [(ngModel)]="form.email"
+            name="email"
+            placeholder="Enter your email"
+          />
+        </div>
+        @if (errors.email) {
+          <div class="form-error"><i class='bx bx-error-circle'></i> {{ errors.email }}</div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrapper">
+          <i class='bx bx-lock-alt'></i>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-input"
+            [class.is-invalid]="errors.password"
+            [(ngModel)]="form.password"
+            name="password"
+            placeholder="Create a password (min. 6 characters)"
+          />
+          <button type="button" class="toggle-password" (click)="togglePassword()">
+            <i class='bx' [ngClass]="showPassword ? 'bx-hide' : 'bx-show'"></i>
+          </button>
+        </div>
+        @if (errors.password) {
+          <div class="form-error"><i class='bx bx-error-circle'></i> {{ errors.password }}</div>
+        }
+      </div>
+
+      <!-- Role -->
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <select class="form-select" [(ngModel)]="form.role" name="role">
+          <option value="PATIENT">Patient</option>
+          <option value="DOCTOR">Doctor</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary btn-lg w-full" [disabled]="isLoading">
+        @if (isLoading) {
+          <div class="spinner"></div>
+          Creating Account...
+        } @else {
+          <i class='bx bx-user-plus'></i>
+          Create Account
+        }
+      </button>
+
+      <!-- Back to Login -->
+      <div class="login-footer">
+        <span>Already have an account?</span>
+        <a routerLink="/">Sign In</a>
+      </div>
+    </form>
+  </div>
+</div>

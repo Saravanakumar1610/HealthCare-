@@ -1,0 +1,46 @@
+name: HealthCare Monorepo CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [healthCareGateway/healthCareGateway, healthCareSecurity/healthCareSecurity, healthCarePatient/healthCarePatient, healthCareDoctor/healthCareDoctor, healthCareAppointment/healthCareAppointment, healthCareBilling/healthCareBilling, healthCarePharmacy/healthCarePharmacy]
+    
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Build Service ${{ matrix.service }}
+      run: |
+        cd ${{ matrix.service }}
+        chmod +x mvnw
+        ./mvnw clean compile -DskipTests
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: healthcare-ui/package-lock.json
+    
+    - name: Install & Build UI
+      run: |
+        cd healthcare-ui
+        npm install
+        npm run build

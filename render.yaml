@@ -1,0 +1,37 @@
+services:
+  # Database
+  - type: database
+    name: healthcare-db
+    databaseName: healthcare
+    user: postgres
+    plan: free
+
+  # Gateway
+  - type: web
+    name: healthcare-gateway
+    env: java
+    plan: free
+    buildCommand: cd healthCareGateway/healthCareGateway && ./mvnw clean compile -DskipTests
+    startCommand: cd healthCareGateway/healthCareGateway && ./mvnw spring-boot:run
+    envVars:
+      - key: PORT
+        value: 8080
+
+  # Security
+  - type: web
+    name: healthcare-security
+    env: java
+    plan: free
+    buildCommand: cd healthCareSecurity/healthCareSecurity && ./mvnw clean compile -DskipTests
+    startCommand: cd healthCareSecurity/healthCareSecurity && ./mvnw spring-boot:run
+    envVars:
+      - key: PORT
+        value: 8081
+
+  # Frontend
+  - type: web
+    name: healthcare-ui
+    env: static
+    plan: free
+    buildCommand: cd healthcare-ui && npm install && npm run build
+    publishDir: healthcare-ui/dist/healthcare-ui/browser

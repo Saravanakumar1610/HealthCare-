@@ -1,0 +1,127 @@
+<div class="dashboard fade-in-up">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <div>
+      <h1>{{ greeting }}, {{ username }} 👋</h1>
+      <p class="welcome-subtitle">Here's what's happening with your healthcare system today.</p>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <div class="spinner spinner-lg"></div>
+      <p>Loading dashboard...</p>
+    </div>
+  } @else {
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <!-- Total Patients -->
+      <div class="glass-card stat-card stat-patients">
+        <div class="stat-icon icon-teal">
+          <i class='bx bxs-user-detail'></i>
+        </div>
+        <div class="stat-value">{{ stats.totalPatients }}</div>
+        <div class="stat-label">Total Patients</div>
+        <div class="stat-bg-icon"><i class='bx bxs-user-detail'></i></div>
+      </div>
+
+      <!-- Total Doctors -->
+      <div class="glass-card stat-card stat-doctors">
+        <div class="stat-icon icon-violet">
+          <i class='bx bxs-injection'></i>
+        </div>
+        <div class="stat-value">{{ stats.totalDoctors }}</div>
+        <div class="stat-label">Total Doctors</div>
+        <div class="stat-bg-icon"><i class='bx bxs-injection'></i></div>
+      </div>
+
+      <!-- Total Appointments -->
+      <div class="glass-card stat-card stat-appointments">
+        <div class="stat-icon icon-blue">
+          <i class='bx bxs-calendar-check'></i>
+        </div>
+        <div class="stat-value">{{ stats.totalAppointments }}</div>
+        <div class="stat-label">Total Appointments</div>
+        <div class="stat-bg-icon"><i class='bx bxs-calendar-check'></i></div>
+      </div>
+
+      <!-- Scheduled -->
+      <div class="glass-card stat-card stat-scheduled">
+        <div class="stat-icon icon-amber">
+          <i class='bx bxs-time-five'></i>
+        </div>
+        <div class="stat-value">{{ stats.scheduledAppointments }}</div>
+        <div class="stat-label">Scheduled</div>
+        <div class="stat-bg-icon"><i class='bx bxs-time-five'></i></div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-header">
+      <h2>Quick Actions</h2>
+    </div>
+
+    <div class="actions-grid">
+      <a routerLink="/patients" class="glass-card action-card">
+        <div class="action-icon icon-teal">
+          <i class='bx bx-user-plus'></i>
+        </div>
+        <h3>Manage Patients</h3>
+        <p>View, add, and manage patient records</p>
+      </a>
+
+      <a routerLink="/doctors" class="glass-card action-card">
+        <div class="action-icon icon-violet">
+          <i class='bx bx-plus-medical'></i>
+        </div>
+        <h3>Manage Doctors</h3>
+        <p>View and manage doctor profiles</p>
+      </a>
+
+      <a routerLink="/appointments" class="glass-card action-card">
+        <div class="action-icon icon-blue">
+          <i class='bx bx-calendar-plus'></i>
+        </div>
+        <h3>Appointments</h3>
+        <p>Schedule and manage appointments</p>
+      </a>
+    </div>
+
+    <!-- Appointment Summary -->
+    <div class="section-header mt-3">
+      <h2>Appointment Summary</h2>
+    </div>
+
+    <div class="summary-grid">
+      <div class="glass-card summary-card">
+        <div class="summary-bar">
+          <div class="summary-fill fill-success" [style.width.%]="stats.totalAppointments ? (stats.completedAppointments / stats.totalAppointments * 100) : 0"></div>
+        </div>
+        <div class="summary-info">
+          <span class="summary-label"><i class='bx bx-check-circle text-success'></i> Completed</span>
+          <span class="summary-value">{{ stats.completedAppointments }}</span>
+        </div>
+      </div>
+
+      <div class="glass-card summary-card">
+        <div class="summary-bar">
+          <div class="summary-fill fill-warning" [style.width.%]="stats.totalAppointments ? (stats.scheduledAppointments / stats.totalAppointments * 100) : 0"></div>
+        </div>
+        <div class="summary-info">
+          <span class="summary-label"><i class='bx bx-time-five text-warning'></i> Scheduled</span>
+          <span class="summary-value">{{ stats.scheduledAppointments }}</span>
+        </div>
+      </div>
+
+      <div class="glass-card summary-card">
+        <div class="summary-bar">
+          <div class="summary-fill fill-danger" [style.width.%]="stats.totalAppointments ? (stats.cancelledAppointments / stats.totalAppointments * 100) : 0"></div>
+        </div>
+        <div class="summary-info">
+          <span class="summary-label"><i class='bx bx-x-circle text-danger'></i> Cancelled</span>
+          <span class="summary-value">{{ stats.cancelledAppointments }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

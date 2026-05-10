@@ -1,0 +1,179 @@
+<div class="page fade-in-up">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1><i class='bx bxs-calendar-check'></i> Appointments</h1>
+      <p class="subtitle">Schedule and manage appointments</p>
+    </div>
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <i class='bx bx-plus'></i> New Appointment
+    </button>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-bar">
+      <i class='bx bx-search'></i>
+      <input
+        type="text"
+        placeholder="Search by patient, doctor, or reason..."
+        [(ngModel)]="searchTerm"
+        (input)="search()"
+      />
+    </div>
+
+    <div class="filter-group">
+      <button class="btn btn-sm" [class.btn-primary]="statusFilter === ''" [class.btn-ghost]="statusFilter !== ''"
+        (click)="filterByStatus('')">All</button>
+      <button class="btn btn-sm" [class.btn-primary]="statusFilter === 'SCHEDULED'" [class.btn-ghost]="statusFilter !== 'SCHEDULED'"
+        (click)="filterByStatus('SCHEDULED')">Scheduled</button>
+      <button class="btn btn-sm" [class.btn-primary]="statusFilter === 'COMPLETED'" [class.btn-ghost]="statusFilter !== 'COMPLETED'"
+        (click)="filterByStatus('COMPLETED')">Completed</button>
+      <button class="btn btn-sm" [class.btn-primary]="statusFilter === 'CANCELLED'" [class.btn-ghost]="statusFilter !== 'CANCELLED'"
+        (click)="filterByStatus('CANCELLED')">Cancelled</button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <div class="spinner spinner-lg"></div>
+      <p>Loading appointments...</p>
+    </div>
+  } @else if (filteredAppointments.length === 0) {
+    <div class="glass-card empty-state">
+      <i class='bx bx-calendar-x'></i>
+      <h3>No Appointments Found</h3>
+      <p>{{ searchTerm || statusFilter ? 'No results match your filters.' : 'Schedule your first appointment.' }}</p>
+      @if (!searchTerm && !statusFilter) {
+        <button class="btn btn-primary mt-2" (click)="openAddModal()">
+          <i class='bx bx-plus'></i> Schedule Appointment
+        </button>
+      }
+    </div>
+  } @else {
+    <!-- Data Table -->
+    <div class="glass-card table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (apt of filteredAppointments; track apt.id) {
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="avatar avatar-teal">{{ apt.patientName?.charAt(0)?.toUpperCase() || 'P' }}</div>
+                  <span class="cell-name">{{ apt.patientName || 'Patient #' + apt.patientId }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="user-cell">
+                  <div class="avatar avatar-violet">{{ apt.doctorName?.charAt(0)?.toUpperCase() || 'D' }}</div>
+                  <span class="cell-name">{{ apt.doctorName || 'Doctor #' + apt.doctorId }}</span>
+                </div>
+              </td>
+              <td>{{ apt.appointmentDate }}</td>
+              <td>{{ apt.appointmentTime }}</td>
+              <td>{{ apt.reason || '—' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusClass(apt.status)">{{ apt.status }}</span>
+              </td>
+              <td>
+                <div class="action-btns">
+                  <button class="btn btn-ghost btn-icon" title="Edit" (click)="openEditModal(apt)">
+                    <i class='bx bx-edit-alt'></i>
+                  </button>
+                  <button class="btn btn-danger btn-icon" title="Delete" (click)="deleteAppointment(apt.id)">
+                    <i class='bx bx-trash'></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+<!-- Add/Edit Modal -->
+@if (showModal) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ isEditing ? 'Edit Appointment' : 'New Appointment' }}</h3>
+        <button class="btn btn-ghost btn-icon" (click)="closeModal()">
+          <i class='bx bx-x'></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Patient *</label>
+            <select class="form-select" [(ngModel)]="form.patientId" (change)="onPatientChange()">
+              <option [ngValue]="null">Select Patient</option>
+              @for (p of patients; track p.id) {
+                <option [ngValue]="p.id">{{ p.name }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Doctor *</label>
+            <select class="form-select" [(ngModel)]="form.doctorId" (change)="onDoctorChange()">
+              <option [ngValue]="null">Select Doctor</option>
+              @for (d of doctors; track d.id) {
+                <option [ngValue]="d.id">{{ d.name }} — {{ d.specialization }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date *</label>
+            <input class="form-input" type="date" [(ngModel)]="form.appointmentDate" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time *</label>
+            <input class="form-input" type="time" [(ngModel)]="form.appointmentTime" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Reason</label>
+          <input class="form-input" [(ngModel)]="form.reason" placeholder="Reason for visit" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" [(ngModel)]="form.status">
+              <option value="SCHEDULED">Scheduled</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <input class="form-input" [(ngModel)]="form.notes" placeholder="Additional notes" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="save()">
+          <i class='bx' [ngClass]="isEditing ? 'bx-check' : 'bx-plus'"></i>
+          {{ isEditing ? 'Update' : 'Schedule' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

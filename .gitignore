@@ -1,0 +1,21 @@
+# Java
+**/target/
+**/.settings/
+**/.project
+**/.classpath
+**/*.jar
+**/*.war
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
+
+# Node
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Misc
+.DS_Store
+.vscode/
+*.log
+.env

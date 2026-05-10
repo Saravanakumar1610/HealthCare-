@@ -1,0 +1,81 @@
+/* Same shared styles as patients page */
+.page-header i {
+  margin-right: 8px;
+  color: var(--secondary);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.count-badge {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  padding: 0;
+  border-radius: var(--radius-lg);
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.avatar-violet {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--secondary);
+}
+
+.cell-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.cell-email {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
