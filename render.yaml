@@ -27,10 +27,8 @@ services:
       - key: PORT
         value: 8081
 
-  # Frontend
-  - type: web
+  # Frontend (Fixed: type set to static)
+  - type: static
     name: healthcare-ui
-    env: static
-    plan: free
     buildCommand: cd healthcare-ui && npm install && npm run build
     publishDir: healthcare-ui/dist/healthcare-ui/browser
