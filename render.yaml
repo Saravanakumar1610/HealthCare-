@@ -1,18 +1,17 @@
-services:
-  # Database
-  - type: database
-    name: healthcare-db
+databases:
+  - name: healthcare-db
     databaseName: healthcare
     user: postgres
     plan: free
 
+services:
   # Gateway
   - type: web
     name: healthcare-gateway
     env: java
     plan: free
-    buildCommand: cd healthCareGateway/healthCareGateway && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareGateway/healthCareGateway && ./mvnw spring-boot:run
+    buildCommand: cd healthCareGateway && ./mvnw clean compile -DskipTests
+    startCommand: cd healthCareGateway && ./mvnw spring-boot:run
     envVars:
       - key: PORT
         value: 8080
@@ -22,8 +21,8 @@ services:
     name: healthcare-security
     env: java
     plan: free
-    buildCommand: cd healthCareSecurity/healthCareSecurity && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareSecurity/healthCareSecurity && ./mvnw spring-boot:run
+    buildCommand: cd healthCareSecurity && ./mvnw clean compile -DskipTests
+    startCommand: cd healthCareSecurity && ./mvnw spring-boot:run
     envVars:
       - key: PORT
         value: 8081
