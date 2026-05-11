@@ -1,76 +1,82 @@
 databases:
   - name: healthcare-db
     databaseName: healthcare
-    user: postgres
     plan: free
 
 services:
-  # ... (All 8 Backend Services) ...
+  # 1. Gateway
   - type: web
     name: healthcare-gateway
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCareGateway && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareGateway && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8080}]
+    envVars:
+      - key: PORT
+        value: 8080
 
+  # 2. Security
   - type: web
     name: healthcare-security
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCareSecurity && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareSecurity && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8081}]
+    envVars:
+      - key: PORT
+        value: 8081
 
+  # 3. Patient Service
   - type: web
     name: healthcare-patient
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCarePatient && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCarePatient && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8082}]
+    envVars:
+      - key: PORT
+        value: 8082
 
+  # 4. Doctor Service
   - type: web
     name: healthcare-doctor
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCareDoctor && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareDoctor && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8083}]
+    envVars:
+      - key: PORT
+        value: 8083
 
+  # 5. Appointment Service
   - type: web
     name: healthcare-appointment
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCareAppointment && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareAppointment && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8084}]
+    envVars:
+      - key: PORT
+        value: 8084
 
+  # 6. Billing Service
   - type: web
     name: healthcare-billing
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCareBilling && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCareBilling && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8085}]
+    envVars:
+      - key: PORT
+        value: 8085
 
+  # 7. Pharmacy Service
   - type: web
     name: healthcare-pharmacy
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCarePharmacy && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCarePharmacy && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8086}]
+    envVars:
+      - key: PORT
+        value: 8086
 
+  # 8. Main HealthCare Service
   - type: web
     name: healthcare-main
-    env: java
+    env: docker
     plan: free
-    buildCommand: cd healthCare && ./mvnw clean compile -DskipTests
-    startCommand: cd healthCare && ./mvnw spring-boot:run
-    envVars: [{key: PORT, value: 8087}]
+    envVars:
+      - key: PORT
+        value: 8087
 
-  # Frontend (Fixed: Using Node environment to serve static files - Guaranteed to work)
+  # Frontend (Guaranteed Node server)
   - type: web
     name: healthcare-ui
     env: node
